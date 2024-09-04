@@ -1,0 +1,242 @@
+<!--plant_disease_prediction-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Prediction</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(beetroot.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        #dropzone {
+            border: 2px dashed #1976b4f3;
+            border-radius: 8px;
+            padding: 20px;
+            background: hsl(85, 68%, 64%);
+            cursor: pointer;
+            font-size: 20px;
+            color: #3498db;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #dropzone.dragover {
+            background: #dbeef9;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+        }
+        #dropzone p {
+            margin: 0;
+            font-size: 16px;
+        }
+        #uploadedImage {
+            margin-top: 20px;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #eaf4f4;
+            border-radius: 4px;
+            color: #333;
+            font-size: 18px;
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 25px;
+            height: 25px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 25px;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            transition: width 1s ease-in-out;
+        }
+        #confidence-text {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            button {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Beetroot Disease Prediction</h1>
+        <div id="dropzone">
+            <p>Drag and drop an image here or click to select</p>
+            <input type="file" id="imageInput" accept="image/jpeg, image/png" style="display: none;">
+        </div>
+        <img id="uploadedImage" style="display: none;">
+        <br>
+        <button onclick="uploadImage()">Predict</button>
+        <div id="loading" class="spinner"></div>
+        <div id="result">
+            <p><strong>Predicted Class:</strong> <span id="predicted-class"></span></p>
+            <div class="progress-container">
+                <div id="confidence-bar" class="progress-bar"></div>
+            </div>
+            <p id="confidence-text"></p>
+        </div>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('imageInput');
+        const uploadedImage = document.getElementById('uploadedImage');
+
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('dragover');
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                fileInput.files = event.dataTransfer.files;
+                displayImage(file);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                displayImage(file);
+            }
+        });
+
+        function displayImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage.src = e.target.result;
+                uploadedImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function uploadImage() {
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select an image.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            document.getElementById('loading').style.display = 'block';  // Show loading spinner
+            document.getElementById('result').style.display = 'none';  // Hide result during processing
+            document.getElementById('confidence-bar').style.width = '0%';  // Reset progress bar
+
+            try {
+                const response = await fetch('http://localhost:8000/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(HTTP error! status: ${response.status});
+                }
+
+                const data = await response.json();
+                const confidence = data.confidence;
+
+                // Update the prediction result
+                document.getElementById('predicted-class').textContent = data.class;
+                
+                // Force a reflow to ensure the animation starts from 0
+                const bar = document.getElementById('confidence-bar');
+                bar.offsetWidth;  // Trigger reflow
+
+                // Animate the progress bar
+                setTimeout(() => {
+                    bar.style.width = ${confidence}%;
+                }, 100);  // Small delay to ensure the transition is applied
+
+                document.getElementById('confidence-text').textContent = Confidence: ${confidence.toFixed(2)}%;
+                document.getElementById('result').style.display = 'block';  // Show result after processing
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 'An error occurred while predicting.';
+            } finally {
+                document.getElementById('loading').style.display = 'none';  // Hide loading spinner
+            }
+        }
+    </script>
+</body>
+</html>

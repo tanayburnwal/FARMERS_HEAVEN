@@ -1,0 +1,258 @@
+<!-- farmers_heaven.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Heaven</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(farm.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .navbar{
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 20px;
+            color: whitesmoke;
+        }
+
+        .nav-links{
+            display: flex;
+            align-items: center;
+        }
+        .nav-links li{
+            margin: 0 30px;
+        }
+
+        .active{
+            color: #000000;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .header{
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid green;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: green;
+            margin-bottom: 30px;
+        }
+
+        .button-row{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .button {
+            flex: 1 1 calc(25% - 30px);
+            max-width: 150px;
+            display: inline-block;
+            padding: 15px ;
+            font-size: 18px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        /* For mobile device */
+        @media only screen and (max-width:850px){
+            .navbar{
+                padding: 0;
+            }
+            .logo{
+                position: absolute;
+                top: 30px;
+                left: 30px;
+            }
+            .nav-links{
+                flex-direction: column;
+                width: 100%;
+                height: 100vh;
+                justify-content: center;
+                background: #cf8655;
+            }
+            .nav-links li{
+                margin: 30px auto;
+            }
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button-potato {
+            background-color: #e67e22;
+        }
+
+        .button-potato:hover {
+            background-color: #d35400;
+        }
+
+        .button-carrot {
+            background-color: #f39c12;
+        }
+
+        .button-carrot:hover {
+            background-color: #e67e22;
+        }
+
+        .button-tomato {
+            background-color: #e98b39;
+        }
+
+        .button-tomato:hover {
+            background-color: #d35400;
+        }
+
+        .button-bell_pepper {
+            background-color: #e98b39;
+        }
+
+        .button-bell_pepper:hover {
+            background-color: #d35400;
+        }
+
+        .button-mango {
+            background-color: #e98b39;
+        }
+
+        .button-mango:hover {
+            background-color: #d35400;
+        }
+
+        .button-grapes {
+            background-color: #e98b39;
+        }
+
+        .button-grapes:hover {
+            background-color: #d35400;
+        }
+
+        .button-beetroot {
+            background-color: #e98b39;
+        }
+
+        .button-beetroot:hover {
+            background-color: #d35400;
+        }
+
+        .button-spinach {
+            background-color: #e98b39;
+        }
+
+        .button-spinach:hover {
+            background-color: #d35400;
+        }
+
+        .button-banana {
+            background-color: #e98b39;
+        }
+
+        .button-banana:hover {
+            background-color: #d35400;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo">Farmers Heaven</h1>
+        <ul class="nav-links" >
+            <li class="active"> <a href="#"></a>Home</li>
+            <li> <a href="#"></a>About</li>
+            <li> <a href="#"></a>Diseases</li>
+            <li> <a href="#"></a>Login</li>
+        </ul>
+    </nav>
+    <div class="container">
+    <div class="header">
+        <h1>Choose the Crop</h1>
+    </div>    
+    <div class="button-row">
+        <button id="potatoButton" class="button button-potato">Potato</button>
+        <button id="carrotButton" class="button button-carrot">Carrot</button>
+        <button id="tomatoButton" class="button button-tomato">Tomato</button>
+        <button id="bell_pepperButton" class="button button-bell_pepper">Bell_pepper</button>
+        <button id="mangoButton" class="button button-mango">mango</button>
+        <button id="grapesButton" class="button button-grapes">grapes</button>
+        <button id="beetrootButton" class="button button-beetroot">beetroot</button>
+        <button id="spinachButton" class="button button-spinach">spinach</button>
+        <button id="bananaButton" class="button button-banana">banana</button>
+    </div>
+</div>
+    <script>
+        document.getElementById('potatoButton').addEventListener('click', () => {
+            window.location.href = 'potato.html'; // Redirect to plant_disease_prediction.html
+        });
+
+        document.getElementById('carrotButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for carrot
+        });
+
+        document.getElementById('tomatoButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for tomato
+        });
+        document.getElementById('bell_pepperButton').addEventListener('click', () => {
+            window.location.href = 'bell_pepper.html';  // Redirect to the URL for bell_pepper
+        });
+        document.getElementById('mangoButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for mango
+        });
+        document.getElementById('grapesButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for grapes
+        });    
+        document.getElementById('beetrootButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for beetroot
+        }); 
+        document.getElementById('spinachButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for spinach
+        }); 
+        document.getElementById('bananaButton').addEventListener('click', () => {
+            window.location.href = 'http://example.com';  // Redirect to the URL for banana
+        }); 
+    </script>
+</body>
+</html>
