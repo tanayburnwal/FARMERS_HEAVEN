@@ -11,6 +11,7 @@ We aim to empower farmers with timely insights to safeguard crops and boost yiel
 - Python
 - fastAPI
 - Tensorflow
+- Datset is downloaded from : **https://www.kaggle.com/datasets/arjuntejaswi/plant-village**
 
 
 
@@ -23,7 +24,6 @@ We aim to empower farmers with timely insights to safeguard crops and boost yiel
 - **Result Display:** The website displays the risk percentage the plant is under of having a particular disease along the name of that disease and also the remedies that can be applied.If the plant is healthy then it displays that it is healthy and is under no risk of disease.
 - **User-Friendly UI:** We have created a user-friendly UI which is very easy to use and very effective.
 - **Future Proof:** Currently our site can only predict disease like early blight and late blight for potato and tomato but we hope to add more diseases for more plants and we sincerely believe that can be scalable to an app which is used by farmers from all over India.
-
 
 ## CONTRIBUTORS
 
